@@ -58,12 +58,13 @@ const SnipPage = () => {
 
     try {
       const result = await simulateOCR(2000);
-      setOcrResult(result);
       
-      // For handwriting, also set the handwriting result
+      // For handwriting, set the handwriting result FIRST before setIsProcessing(false)
       if (source === 'handwriting') {
         setHandwritingResult(result);
       }
+      
+      setOcrResult(result);
       
       // Add to snips collection
       const newSnip = {
