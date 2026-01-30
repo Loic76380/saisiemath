@@ -40,6 +40,7 @@ const SnipPage = () => {
   const [copiedFormat, setCopiedFormat] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [activeTab, setActiveTab] = useState('upload');
+  const [ocrError, setOcrError] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleFileUpload = async (e) => {
