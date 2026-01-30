@@ -91,7 +91,41 @@ const Layout = ({ children }) => {
         </nav>
 
         {/* Bottom Actions */}
-        <div className="p-3 border-t border-[#21262d]">
+        <div className="p-3 border-t border-[#21262d] space-y-2">
+          {/* Offline indicator */}
+          {sidebarOpen && (
+            <div className={cn(
+              "flex items-center gap-2 px-3 py-2 rounded-lg text-sm",
+              isOnline 
+                ? "bg-green-500/10 text-green-400" 
+                : "bg-yellow-500/10 text-yellow-400"
+            )}>
+              {isOnline ? (
+                <>
+                  <Wifi className="w-4 h-4" />
+                  <span>En ligne</span>
+                </>
+              ) : (
+                <>
+                  <WifiOff className="w-4 h-4" />
+                  <div className="flex-1">
+                    <span>Hors ligne</span>
+                    <p className="text-xs opacity-70">Données sauvées localement</p>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+          
+          {!sidebarOpen && (
+            <div className={cn(
+              "flex items-center justify-center p-2 rounded-lg",
+              isOnline ? "text-green-400" : "text-yellow-400"
+            )}>
+              {isOnline ? <Wifi className="w-4 h-4" /> : <WifiOff className="w-4 h-4" />}
+            </div>
+          )}
+          
           <Link
             to="/settings"
             className={cn(
