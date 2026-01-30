@@ -203,43 +203,57 @@ const EditorPage = () => {
               </DialogContent>
             </Dialog>
           </div>
-          <p className="text-sm text-gray-500">{notes.length} notes</p>
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-500">{notes.length} notes</p>
+            {!isOnline && (
+              <Badge variant="outline" className="text-xs border-yellow-500/30 text-yellow-400">
+                <WifiOff className="w-3 h-3 mr-1" />
+                Local
+              </Badge>
+            )}
+          </div>
         </div>
 
         <ScrollArea className="flex-1">
-          <div className="p-2 space-y-1">
-            {notes.map((note) => (
-              <div
-                key={note.id}
-                className={cn(
-                  "p-3 rounded-lg cursor-pointer transition-all group",
-                  selectedNote?.id === note.id
-                    ? "bg-[#6366f1]/20 border border-[#6366f1]/30"
-                    : "hover:bg-[#21262d]"
-                )}
-                onClick={() => setSelectedNote(note)}
-              >
-                <div className="flex items-start justify-between">
-                  <h3 className="font-medium text-sm truncate flex-1">{note.title}</h3>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="w-6 h-6 opacity-0 group-hover:opacity-100 text-gray-500 hover:text-red-400"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeleteNote(note.id);
-                    }}
-                  >
-                    <Trash2 className="w-3 h-3" />
-                  </Button>
+          {isLoading ? (
+            <div className="flex items-center justify-center p-8">
+              <Loader2 className="w-6 h-6 text-[#6366f1] animate-spin" />
+            </div>
+          ) : (
+            <div className="p-2 space-y-1">
+              {notes.map((note) => (
+                <div
+                  key={note.id}
+                  className={cn(
+                    "p-3 rounded-lg cursor-pointer transition-all group",
+                    selectedNote?.id === note.id
+                      ? "bg-[#6366f1]/20 border border-[#6366f1]/30"
+                      : "hover:bg-[#21262d]"
+                  )}
+                  onClick={() => setSelectedNote(note)}
+                >
+                  <div className="flex items-start justify-between">
+                    <h3 className="font-medium text-sm truncate flex-1">{note.title}</h3>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="w-6 h-6 opacity-0 group-hover:opacity-100 text-gray-500 hover:text-red-400"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteNote(note.id);
+                      }}
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </Button>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    {formatDate(note.updatedAt)}
+                  </p>
                 </div>
-                <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                  <Clock className="w-3 h-3" />
-                  {formatDate(note.updatedAt)}
-                </p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </ScrollArea>
       </div>
 
