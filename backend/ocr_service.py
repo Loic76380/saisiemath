@@ -57,7 +57,7 @@ async def recognize_equation(image_base64: str) -> dict:
     # Create message with image
     user_message = UserMessage(
         text="Analyze this image and extract the mathematical equation. Return only the LaTeX code.",
-        image_contents=[image_content]
+        file_contents=[image_content]
     )
     
     try:
