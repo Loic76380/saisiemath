@@ -26,6 +26,11 @@ const HandwritingCanvas = ({ onRecognize, isProcessing, recognitionResult, onCle
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const resultImageRef = useRef(null);
+  
+  // Debug: log recognitionResult when it changes
+  useEffect(() => {
+    console.log('HandwritingCanvas recognitionResult:', recognitionResult);
+  }, [recognitionResult]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [tool, setTool] = useState('pen');
   const [brushSize, setBrushSize] = useState(4);
