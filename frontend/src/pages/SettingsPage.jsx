@@ -16,7 +16,8 @@ import {
   Database,
   Upload,
   Trash2,
-  HardDrive
+  HardDrive,
+  Languages
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
@@ -28,11 +29,12 @@ import { Separator } from '../components/ui/separator';
 import { Badge } from '../components/ui/badge';
 import { Progress } from '../components/ui/progress';
 import * as storage from '../utils/offlineStorage';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const SettingsPage = () => {
+  const { t, language, changeLanguage } = useLanguage();
   const [settings, setSettings] = useState({
     theme: 'dark',
-    language: 'fr',
     defaultFormat: 'latex',
     autoSave: true,
     notifications: true,
@@ -77,7 +79,7 @@ const SettingsPage = () => {
       const text = await file.text();
       const data = JSON.parse(text);
       await storage.importAllData(data);
-      alert('Données importées avec succès!');
+      alert(language === 'fr' ? 'Données importées avec succès!' : 'Data imported successfully!');
       loadStorageUsage();
     } catch (error) {
       console.error('Import failed:', error);
