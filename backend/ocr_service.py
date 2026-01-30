@@ -56,7 +56,7 @@ async def recognize_equation(image_base64: str) -> dict:
     
     # Create message with image
     user_message = UserMessage(
-        text="Analyze this image and extract the mathematical equation. Return only the LaTeX code.",
+        text="Transcribe EXACTLY what is written in this image. Do not interpret, solve, or add anything. Just read the handwritten text/equation and convert to LaTeX. If you see 'f(x)=2' write 'f(x) = 2'. Only output what you literally see.",
         file_contents=[image_content]
     )
     
