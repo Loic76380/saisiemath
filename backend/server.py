@@ -39,6 +39,16 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+# OCR Models
+class OCRRequest(BaseModel):
+    image: str  # Base64 encoded image
+
+class OCRResponse(BaseModel):
+    latex: str
+    confidence: float
+    formats: Dict[str, str]
+    error: Optional[str] = None
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
