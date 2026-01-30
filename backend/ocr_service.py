@@ -59,9 +59,14 @@ async def recognize_equation(image_base64: str) -> dict:
     # Create image content
     image_content = ImageContent(image_base64=image_base64)
     
-    # Create message with image
+    # Create message with image - very explicit instruction
     user_message = UserMessage(
-        text="Transcribe EXACTLY what is written in this image. Do not interpret, solve, or add anything. Just read the handwritten text/equation and convert to LaTeX. If you see 'f(x)=2' write 'f(x) = 2'. Only output what you literally see.",
+        text="""Look at this handwritten image. 
+DO NOT recognize it as a known formula.
+DO NOT output derivatives, integrals, or famous equations.
+Just transcribe the EXACT shapes you see as letters and symbols.
+If you see "f(x)=√" then output "f(x) = \\sqrt{}"
+Output ONLY the literal transcription, nothing else.""",
         file_contents=[image_content]
     )
     
