@@ -13,7 +13,8 @@ import {
   FileImage,
   Wifi,
   WifiOff,
-  CloudOff
+  CloudOff,
+  AlertCircle
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
@@ -25,6 +26,7 @@ import CopyFormats from '../components/CopyFormats';
 import { useSnips, useOffline } from '../hooks/useOffline';
 import { useLanguage } from '../i18n/LanguageContext';
 import { mockSnips, simulateOCR } from '../data/mock';
+import { performOCR } from '../services/api';
 import { cn } from '../lib/utils';
 
 const SnipPage = () => {
