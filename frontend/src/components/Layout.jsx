@@ -24,6 +24,7 @@ import { useOffline } from '../hooks/useOffline';
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
+  const { isOnline } = useOffline();
 
   const navItems = [
     { path: '/', icon: Camera, label: 'Snip', description: 'Capture & OCR' },
