@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Camera, 
@@ -7,31 +7,33 @@ import {
   Search, 
   Settings, 
   Menu, 
-  X,
   ChevronLeft,
   Zap,
-  FolderOpen,
-  PenTool,
   Wifi,
   WifiOff,
-  Database
+  Globe
 } from 'lucide-react';
 import { Button } from './ui/button';
-import { Badge } from './ui/badge';
 import { cn } from '../lib/utils';
 import { useOffline } from '../hooks/useOffline';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
   const { isOnline } = useOffline();
+  const { t, language, changeLanguage } = useLanguage();
 
   const navItems = [
-    { path: '/', icon: Camera, label: 'Snip', description: 'Capture & OCR' },
-    { path: '/documents', icon: FileText, label: 'Documents', description: 'PDF Conversion' },
-    { path: '/editor', icon: Edit3, label: 'Editor', description: 'Markdown Notes' },
-    { path: '/search', icon: Search, label: 'Search', description: 'Find equations' },
+    { path: '/', icon: Camera, label: t('nav.snip'), description: t('nav.captureOcr') },
+    { path: '/documents', icon: FileText, label: t('nav.documents'), description: t('nav.pdfConversion') },
+    { path: '/editor', icon: Edit3, label: t('nav.editor'), description: t('nav.markdownNotes') },
+    { path: '/search', icon: Search, label: t('nav.search'), description: t('nav.findEquations') },
   ];
+
+  const toggleLanguage = () => {
+    changeLanguage(language === 'fr' ? 'en' : 'fr');
+  };
 
   return (
     <div className="flex h-screen bg-[#0d1117] text-white overflow-hidden">
@@ -87,11 +89,32 @@ const Layout = ({ children }) => {
                 )}
               </Link>
             );
-          })})
+          })}
         </nav>
 
         {/* Bottom Actions */}
         <div className="p-3 border-t border-[#21262d] space-y-2">
+          {/* Language Toggle */}
+          <button
+            onClick={toggleLanguage}
+            className={cn(
+              "flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm transition-all",
+              "bg-[#21262d]/50 text-gray-300 hover:bg-[#21262d] hover:text-white"
+            )}
+          >
+            <Globe className="w-4 h-4" />
+            {sidebarOpen ? (
+              <div className="flex items-center justify-between flex-1">
+                <span>{language === 'fr' ? 'Français' : 'English'}</span>
+                <span className="text-xs px-2 py-0.5 bg-[#6366f1]/20 text-[#a5b4fc] rounded">
+                  {language.toUpperCase()}
+                </span>
+              </div>
+            ) : (
+              <span className="sr-only">{language === 'fr' ? 'Français' : 'English'}</span>
+            )}
+          </button>
+
           {/* Offline indicator */}
           {sidebarOpen && (
             <div className={cn(
@@ -103,14 +126,14 @@ const Layout = ({ children }) => {
               {isOnline ? (
                 <>
                   <Wifi className="w-4 h-4" />
-                  <span>En ligne</span>
+                  <span>{t('status.online')}</span>
                 </>
               ) : (
                 <>
                   <WifiOff className="w-4 h-4" />
                   <div className="flex-1">
-                    <span>Hors ligne</span>
-                    <p className="text-xs opacity-70">Données sauvées localement</p>
+                    <span>{t('status.offline')}</span>
+                    <p className="text-xs opacity-70">{t('status.offlineData')}</p>
                   </div>
                 </>
               )}
@@ -134,7 +157,7 @@ const Layout = ({ children }) => {
             )}
           >
             <Settings className="w-5 h-5" />
-            {sidebarOpen && <span className="text-sm">Settings</span>}
+            {sidebarOpen && <span className="text-sm">{t('nav.settings')}</span>}
           </Link>
         </div>
       </aside>
