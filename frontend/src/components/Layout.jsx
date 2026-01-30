@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Camera, 
@@ -11,10 +11,15 @@ import {
   ChevronLeft,
   Zap,
   FolderOpen,
-  PenTool
+  PenTool,
+  Wifi,
+  WifiOff,
+  Database
 } from 'lucide-react';
 import { Button } from './ui/button';
+import { Badge } from './ui/badge';
 import { cn } from '../lib/utils';
+import { useOffline } from '../hooks/useOffline';
 
 const Layout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
