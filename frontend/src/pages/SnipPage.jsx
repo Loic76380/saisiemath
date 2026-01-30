@@ -118,12 +118,12 @@ const SnipPage = () => {
   return (
     <div className="flex h-full">
       {/* Left Panel - Capture Area */}
-      <div className="flex-1 p-6 flex flex-col">
+      <div className="flex-1 p-6 flex flex-col overflow-hidden">
         {/* Header with offline status */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between flex-shrink-0">
           <div>
-            <h1 className="text-2xl font-bold mb-2">Capture & OCR</h1>
-            <p className="text-gray-400">Capturez des équations mathématiques et convertissez-les en LaTeX</p>
+            <h1 className="text-2xl font-bold mb-1">{t('snip.title')}</h1>
+            <p className="text-gray-400 text-sm">{t('snip.subtitle')}</p>
           </div>
           
           {/* Online/Offline indicator */}
@@ -136,29 +136,29 @@ const SnipPage = () => {
             {isOnline ? (
               <>
                 <Wifi className="w-4 h-4" />
-                <span>En ligne</span>
+                <span>{t('status.online')}</span>
               </>
             ) : (
               <>
                 <WifiOff className="w-4 h-4" />
-                <span>Hors ligne</span>
+                <span>{t('status.offline')}</span>
               </>
             )}
           </div>
         </div>
 
         {/* Input Methods Tabs */}
-        <Card className="bg-[#161b22] border-[#30363d] flex-1 flex flex-col">
+        <Card className="bg-[#161b22] border-[#30363d] flex-1 flex flex-col min-h-0">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col h-full">
-            <CardHeader className="border-b border-[#30363d] pb-0">
+            <CardHeader className="border-b border-[#30363d] pb-0 flex-shrink-0">
               <TabsList className="bg-[#21262d] border border-[#30363d]">
                 <TabsTrigger value="upload" className="data-[state=active]:bg-[#6366f1]">
                   <Camera className="w-4 h-4 mr-2" />
-                  Image
+                  {t('snip.image')}
                 </TabsTrigger>
                 <TabsTrigger value="handwriting" className="data-[state=active]:bg-[#6366f1]">
                   <PenTool className="w-4 h-4 mr-2" />
-                  Écriture manuscrite
+                  {t('snip.handwriting')}
                 </TabsTrigger>
               </TabsList>
             </CardHeader>
