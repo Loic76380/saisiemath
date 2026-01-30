@@ -290,6 +290,18 @@ const EditorPage = () => {
                   <Save className="w-4 h-4 mr-2" />
                   {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
                 </Button>
+                <Button 
+                  variant="outline" 
+                  className="border-[#30363d]"
+                  onClick={handleCopyContent}
+                >
+                  {copied ? (
+                    <Check className="w-4 h-4 mr-2 text-green-400" />
+                  ) : (
+                    <Copy className="w-4 h-4 mr-2" />
+                  )}
+                  Copier
+                </Button>
                 <Button variant="outline" className="border-[#30363d]">
                   <Download className="w-4 h-4 mr-2" />
                   Exporter
