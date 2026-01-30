@@ -290,13 +290,13 @@ const SnipPage = () => {
 
               {/* Copy formats for other applications */}
               <div className="mt-4 pt-4 border-t border-[#30363d]">
-                <p className="text-sm text-gray-500 mb-3">Copier vers d'autres applications :</p>
+                <p className="text-sm text-gray-500 mb-3">{t('snip.copyToApps')}</p>
                 <CopyFormats latex={ocrResult.latex} />
               </div>
 
               {/* Preview */}
               <div className="mt-4 p-4 bg-white rounded-lg">
-                <p className="text-xs text-gray-500 mb-2">Aperçu</p>
+                <p className="text-xs text-gray-500 mb-2">{t('snip.preview')}</p>
                 <img 
                   src={`https://latex.codecogs.com/png.latex?\\dpi{150}\\bg_white ${encodeURIComponent(ocrResult.latex)}`}
                   alt="LaTeX preview"
@@ -313,13 +313,13 @@ const SnipPage = () => {
         <div className="p-4 border-b border-[#21262d]">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="font-semibold mb-1">Collection</h2>
-              <p className="text-sm text-gray-500">{snips.length} snips</p>
+              <h2 className="font-semibold mb-1">{t('snip.collection')}</h2>
+              <p className="text-sm text-gray-500">{snips.length} {t('snip.snips')}</p>
             </div>
             {!isOnline && (
               <Badge variant="outline" className="border-yellow-500/30 text-yellow-400 text-xs">
                 <CloudOff className="w-3 h-3 mr-1" />
-                Local
+                {t('status.local')}
               </Badge>
             )}
           </div>
