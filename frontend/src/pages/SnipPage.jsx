@@ -184,8 +184,8 @@ const SnipPage = () => {
                 {isProcessing ? (
                   <div className="flex flex-col items-center gap-4">
                     <Loader2 className="w-12 h-12 text-[#6366f1] animate-spin" />
-                    <p className="text-[#6366f1] font-medium">Analyse en cours...</p>
-                    <p className="text-sm text-gray-500">Reconnaissance des équations mathématiques</p>
+                    <p className="text-[#6366f1] font-medium">{t('snip.analyzing')}</p>
+                    <p className="text-sm text-gray-500">{t('snip.recognizing')}</p>
                   </div>
                 ) : uploadedImage && activeTab === 'upload' ? (
                   <div className="flex flex-col items-center gap-4">
@@ -194,7 +194,9 @@ const SnipPage = () => {
                       alt="Uploaded" 
                       className="max-h-48 rounded-lg border border-[#30363d]"
                     />
-                    <p className="text-gray-400">Cliquez pour capturer une nouvelle image</p>
+                    <p className="text-gray-400">
+                      {language === 'fr' ? 'Cliquez pour capturer une nouvelle image' : 'Click to capture a new image'}
+                    </p>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center gap-4">
@@ -202,21 +204,21 @@ const SnipPage = () => {
                       <Camera className="w-8 h-8 text-[#6366f1]" />
                     </div>
                     <div>
-                      <p className="text-white font-medium mb-1">Glissez une image ou cliquez pour télécharger</p>
-                      <p className="text-sm text-gray-500">Supporte PNG, JPG, WEBP</p>
+                      <p className="text-white font-medium mb-1">{t('snip.dragOrClick')}</p>
+                      <p className="text-sm text-gray-500">{t('snip.supports')}</p>
                     </div>
                     <div className="flex gap-3 mt-2">
                       <Badge variant="outline" className="border-[#30363d] text-gray-400">
-                        <Camera className="w-3 h-3 mr-1" /> Screenshot
+                        <Camera className="w-3 h-3 mr-1" /> {t('snip.screenshot')}
                       </Badge>
                       <Badge variant="outline" className="border-[#30363d] text-gray-400">
-                        <FileImage className="w-3 h-3 mr-1" /> Photo
+                        <FileImage className="w-3 h-3 mr-1" /> {t('snip.photo')}
                       </Badge>
                     </div>
                     {!isOnline && (
                       <p className="text-xs text-yellow-400 mt-2">
                         <CloudOff className="w-3 h-3 inline mr-1" />
-                        Mode hors ligne - Les données seront sauvegardées localement
+                        {t('snip.offlineMode')}
                       </p>
                     )}
                   </div>
@@ -229,24 +231,26 @@ const SnipPage = () => {
               <HandwritingCanvas 
                 onRecognize={handleHandwritingRecognize}
                 isProcessing={isProcessing}
+                recognitionResult={handwritingResult}
+                onClearResult={handleClearHandwritingResult}
               />
             </TabsContent>
           </Tabs>
         </Card>
 
-        {/* OCR Result */}
-        {ocrResult && (
-          <Card className="bg-[#161b22] border-[#30363d] mt-4">
+        {/* OCR Result - only show for upload tab */}
+        {ocrResult && activeTab === 'upload' && (
+          <Card className="bg-[#161b22] border-[#30363d] mt-4 flex-shrink-0">
             <CardHeader className="border-b border-[#30363d] py-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg">Résultat OCR</CardTitle>
+                <CardTitle className="text-lg">{t('snip.ocrResult')}</CardTitle>
                 <div className="flex items-center gap-3">
                   <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
-                    {Math.round(ocrResult.confidence * 100)}% confiance
+                    {Math.round(ocrResult.confidence * 100)}% {t('snip.confidence')}
                   </Badge>
                   {!isOnline && (
                     <Badge className="bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
-                      <CloudOff className="w-3 h-3 mr-1" /> Sauvé localement
+                      <CloudOff className="w-3 h-3 mr-1" /> {t('status.savedLocally')}
                     </Badge>
                   )}
                 </div>
