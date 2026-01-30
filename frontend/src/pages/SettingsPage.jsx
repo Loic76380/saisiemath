@@ -472,8 +472,8 @@ const SettingsPage = () => {
 
         {/* Version Info */}
         <div className="text-center text-sm text-gray-500 py-4">
-          <p>MathSnip Clone v1.0.0</p>
-          <p className="text-xs mt-1">Données mockées pour démonstration</p>
+          <p>{t('settings.version')}</p>
+          <p className="text-xs mt-1">{t('settings.mockData')}</p>
         </div>
       </div>
     </div>
