@@ -83,7 +83,7 @@ const SettingsPage = () => {
       loadStorageUsage();
     } catch (error) {
       console.error('Import failed:', error);
-      alert('Erreur lors de l\'import des données');
+      alert(language === 'fr' ? 'Erreur lors de l\'import des données' : 'Error importing data');
     }
   };
 
@@ -92,21 +92,62 @@ const SettingsPage = () => {
   };
 
   const shortcuts = [
-    { action: 'Capturer écran', keys: ['Ctrl', 'Alt', 'M'] },
-    { action: 'Nouvelle note', keys: ['Ctrl', 'N'] },
-    { action: 'Rechercher', keys: ['Ctrl', 'K'] },
-    { action: 'Sauvegarder', keys: ['Ctrl', 'S'] },
-    { action: 'Copier LaTeX', keys: ['Ctrl', 'Shift', 'C'] },
+    { action: t('shortcuts.captureScreen'), keys: ['Ctrl', 'Alt', 'M'] },
+    { action: t('shortcuts.newNote'), keys: ['Ctrl', 'N'] },
+    { action: t('shortcuts.search'), keys: ['Ctrl', 'K'] },
+    { action: t('shortcuts.save'), keys: ['Ctrl', 'S'] },
+    { action: t('shortcuts.copyLatex'), keys: ['Ctrl', 'Shift', 'C'] },
   ];
 
   return (
-    <div className="flex-1 p-6 max-w-4xl mx-auto">
+    <div className="flex-1 p-6 max-w-4xl mx-auto overflow-auto">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold mb-2">Paramètres</h1>
-        <p className="text-gray-400">Gérez vos préférences et configurations</p>
+        <h1 className="text-2xl font-bold mb-2">{t('settings.title')}</h1>
+        <p className="text-gray-400">{t('settings.subtitle')}</p>
       </div>
 
       <div className="space-y-6">
+        {/* Language Section - Prominent */}
+        <Card className="bg-[#161b22] border-[#30363d] border-2 border-[#6366f1]/30">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-[#6366f1]/20 flex items-center justify-center">
+                <Languages className="w-5 h-5 text-[#6366f1]" />
+              </div>
+              <div>
+                <CardTitle className="text-lg">{t('settings.language')}</CardTitle>
+                <CardDescription>{t('settings.languageDesc')}</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-3">
+              <Button
+                variant={language === 'fr' ? 'default' : 'outline'}
+                className={language === 'fr' 
+                  ? 'bg-[#6366f1] hover:bg-[#5558e3] flex-1' 
+                  : 'border-[#30363d] bg-[#21262d] flex-1 hover:bg-[#30363d]'
+                }
+                onClick={() => changeLanguage('fr')}
+              >
+                <span className="mr-2">🇫🇷</span>
+                Français
+              </Button>
+              <Button
+                variant={language === 'en' ? 'default' : 'outline'}
+                className={language === 'en' 
+                  ? 'bg-[#6366f1] hover:bg-[#5558e3] flex-1' 
+                  : 'border-[#30363d] bg-[#21262d] flex-1 hover:bg-[#30363d]'
+                }
+                onClick={() => changeLanguage('en')}
+              >
+                <span className="mr-2">🇬🇧</span>
+                English
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Profile Section */}
         <Card className="bg-[#161b22] border-[#30363d]">
           <CardHeader>
@@ -115,8 +156,8 @@ const SettingsPage = () => {
                 <User className="w-5 h-5 text-[#6366f1]" />
               </div>
               <div>
-                <CardTitle className="text-lg">Profil</CardTitle>
-                <CardDescription>Informations de votre compte</CardDescription>
+                <CardTitle className="text-lg">{t('settings.profile')}</CardTitle>
+                <CardDescription>{t('settings.profileDesc')}</CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -127,7 +168,7 @@ const SettingsPage = () => {
               </div>
               <div className="flex-1">
                 <Input 
-                  defaultValue="Utilisateur Demo" 
+                  defaultValue={language === 'fr' ? 'Utilisateur Demo' : 'Demo User'}
                   className="bg-[#0d1117] border-[#30363d] mb-2"
                 />
                 <Input 
@@ -139,8 +180,8 @@ const SettingsPage = () => {
             </div>
             <div className="flex items-center justify-between pt-2">
               <div>
-                <p className="text-sm font-medium">Plan actuel</p>
-                <p className="text-xs text-gray-500">Accès gratuit avec limitations</p>
+                <p className="text-sm font-medium">{t('settings.currentPlan')}</p>
+                <p className="text-xs text-gray-500">{t('settings.freeAccess')}</p>
               </div>
               <Badge className="bg-[#6366f1]/20 text-[#6366f1] border-[#6366f1]/30">
                 Free
@@ -157,7 +198,7 @@ const SettingsPage = () => {
                 <Palette className="w-5 h-5 text-purple-400" />
               </div>
               <div>
-                <CardTitle className="text-lg">Apparence</CardTitle>
+                <CardTitle className="text-lg">{t('settings.appearance')}</CardTitle>
                 <CardDescription>Personnalisez l'interface</CardDescription>
               </div>
             </div>
