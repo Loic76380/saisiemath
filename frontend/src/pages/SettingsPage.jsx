@@ -278,27 +278,7 @@ const SettingsPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <Label className="text-sm font-medium">{t('settings.defaultFormat')}</Label>
-                <p className="text-xs text-gray-500">Langue de l'interface</p>
-              </div>
-              <Select value={settings.language} onValueChange={(v) => updateSetting('language', v)}>
-                <SelectTrigger className="w-40 bg-[#21262d] border-[#30363d]">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-[#161b22] border-[#30363d]">
-                  <SelectItem value="fr">Français</SelectItem>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="de">Deutsch</SelectItem>
-                  <SelectItem value="es">Español</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <Separator className="bg-[#30363d]" />
-
-            <div className="flex items-center justify-between">
-              <div>
-                <Label className="text-sm font-medium">Format par défaut</Label>
-                <p className="text-xs text-gray-500">Format de sortie pour les équations</p>
+                <p className="text-xs text-gray-500">{t('settings.defaultFormatDesc')}</p>
               </div>
               <Select value={settings.defaultFormat} onValueChange={(v) => updateSetting('defaultFormat', v)}>
                 <SelectTrigger className="w-40 bg-[#21262d] border-[#30363d]">
@@ -308,7 +288,7 @@ const SettingsPage = () => {
                   <SelectItem value="latex">LaTeX</SelectItem>
                   <SelectItem value="mathml">MathML</SelectItem>
                   <SelectItem value="asciimath">AsciiMath</SelectItem>
-                  <SelectItem value="text">Texte</SelectItem>
+                  <SelectItem value="text">{language === 'fr' ? 'Texte' : 'Text'}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -317,8 +297,8 @@ const SettingsPage = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <Label className="text-sm font-medium">Sauvegarde automatique</Label>
-                <p className="text-xs text-gray-500">Sauvegarde les notes automatiquement</p>
+                <Label className="text-sm font-medium">{t('settings.autoSave')}</Label>
+                <p className="text-xs text-gray-500">{t('settings.autoSaveDesc')}</p>
               </div>
               <Switch
                 checked={settings.autoSave}
@@ -328,8 +308,8 @@ const SettingsPage = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <Label className="text-sm font-medium">Notifications</Label>
-                <p className="text-xs text-gray-500">Recevoir des notifications</p>
+                <Label className="text-sm font-medium">{t('settings.notifications')}</Label>
+                <p className="text-xs text-gray-500">{t('settings.notificationsDesc')}</p>
               </div>
               <Switch
                 checked={settings.notifications}
@@ -347,8 +327,8 @@ const SettingsPage = () => {
                 <Keyboard className="w-5 h-5 text-green-400" />
               </div>
               <div>
-                <CardTitle className="text-lg">Raccourcis clavier</CardTitle>
-                <CardDescription>Accélérez votre workflow</CardDescription>
+                <CardTitle className="text-lg">{t('settings.shortcuts')}</CardTitle>
+                <CardDescription>{t('settings.shortcutsDesc')}</CardDescription>
               </div>
             </div>
           </CardHeader>
