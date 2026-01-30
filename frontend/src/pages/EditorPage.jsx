@@ -37,11 +37,20 @@ import { mockNotes } from '../data/mock';
 import { cn } from '../lib/utils';
 
 const EditorPage = () => {
-  const [notes, setNotes] = useState(mockNotes);
-  const [selectedNote, setSelectedNote] = useState(mockNotes[0]);
+  const { notes, addNote, removeNote, updateNote, isLoading } = useNotes(mockNotes);
+  const { isOnline } = useOffline();
+  const [selectedNote, setSelectedNote] = useState(null);
   const [viewMode, setViewMode] = useState('split');
   const [isSaving, setIsSaving] = useState(false);
   const [newNoteTitle, setNewNoteTitle] = useState('');
+  const [copied, setCopied] = useState(false);
+
+  // Set initial selected note when notes load
+  useEffect(() => {
+    if (notes.length > 0 && !selectedNote) {
+      setSelectedNote(notes[0]);
+    }
+  }, [notes, selectedNote]);
 
   const handleContentChange = (content) => {
     if (!selectedNote) return;
