@@ -58,9 +58,37 @@ const SnipPage = () => {
     setUploadedImage(imageData);
     setIsProcessing(true);
     setOcrResult(null);
+    setOcrError(null);
 
     try {
-      const result = await simulateOCR(2000);
+      let result;
+      
+      // Use real OCR API if online, fallback to mock if offline
+      if (isOnline) {
+        try {
+          result = await performOCR(imageData);
+        } catch (apiError) {
+          console.warn('API OCR failed, using fallback:', apiError);
+          // Fallback to mock if API fails
+          result = await simulateOCR(1000);
+          setOcrError(language === 'fr' 
+            ? 'Mode hors ligne - résultat simulé' 
+            : 'Offline mode - simulated result');
+        }
+      } else {
+        // Offline mode - use mock
+        result = await simulateOCR(1000);
+        setOcrError(language === 'fr' 
+          ? 'Mode hors ligne - résultat simulé' 
+          : 'Offline mode - simulated result');
+      }
+      
+      // Check if recognition failed
+      if (result.error || !result.latex) {
+        setOcrError(result.error || (language === 'fr' 
+          ? 'Impossible de reconnaître l\'équation' 
+          : 'Could not recognize equation'));
+      }
       
       // For handwriting, set the handwriting result FIRST before setIsProcessing(false)
       if (source === 'handwriting') {
@@ -69,20 +97,25 @@ const SnipPage = () => {
       
       setOcrResult(result);
       
-      // Add to snips collection
-      const newSnip = {
-        id: Date.now().toString(),
-        title: `Snip ${snips.length + 1}`,
-        latex: result.latex,
-        markdown: `$${result.latex}$`,
-        type: 'equation',
-        createdAt: new Date().toISOString(),
-        source: source,
-        thumbnail: imageData
-      };
-      await addSnip(newSnip);
+      // Add to snips collection only if we got a valid result
+      if (result.latex) {
+        const newSnip = {
+          id: Date.now().toString(),
+          title: `Snip ${snips.length + 1}`,
+          latex: result.latex,
+          markdown: `$${result.latex}$`,
+          type: 'equation',
+          createdAt: new Date().toISOString(),
+          source: source,
+          thumbnail: imageData
+        };
+        await addSnip(newSnip);
+      }
     } catch (error) {
       console.error('OCR failed:', error);
+      setOcrError(error.message || (language === 'fr' 
+        ? 'Erreur lors de la reconnaissance' 
+        : 'Recognition error'));
     } finally {
       setIsProcessing(false);
     }
@@ -90,7 +123,7 @@ const SnipPage = () => {
 
   const handleHandwritingRecognize = useCallback(async (imageData) => {
     await processImage(imageData, 'handwriting');
-  }, [snips.length]);
+  }, [snips.length, isOnline, language]);
 
   const handleClearHandwritingResult = () => {
     setHandwritingResult(null);
