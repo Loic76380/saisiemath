@@ -408,10 +408,10 @@ const HandwritingCanvas = ({ onRecognize, isProcessing, recognitionResult, onCle
       </div>
 
       {/* Main content area */}
-      <div className="flex-1 flex gap-4 p-4 overflow-hidden">
+      <div className="flex-1 flex gap-4 p-4 min-h-0">
         {/* Canvas */}
-        <div className="flex-1 flex flex-col">
-          <div className="flex-1 bg-white rounded-lg overflow-hidden shadow-lg border-2 border-[#30363d]">
+        <div className={cn("flex flex-col min-w-0", recognitionResult ? "flex-1" : "flex-1")}>
+          <div className="flex-1 bg-white rounded-lg overflow-hidden shadow-lg border-2 border-[#30363d] min-h-0">
             <canvas
               ref={canvasRef}
               className="w-full h-full cursor-crosshair touch-none"
@@ -422,9 +422,10 @@ const HandwritingCanvas = ({ onRecognize, isProcessing, recognitionResult, onCle
               onTouchStart={startDrawing}
               onTouchMove={draw}
               onTouchEnd={stopDrawing}
+              data-testid="handwriting-canvas"
             />
           </div>
-          <p className="text-center text-xs text-gray-500 mt-2">
+          <p className="text-center text-xs text-gray-500 mt-2 flex-shrink-0">
             {language === 'fr' 
               ? 'Dessinez votre équation mathématique' 
               : 'Draw your mathematical equation'}
