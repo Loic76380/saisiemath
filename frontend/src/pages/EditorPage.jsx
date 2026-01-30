@@ -18,7 +18,11 @@ import {
   Quote,
   Heading1,
   Heading2,
-  Sigma
+  Sigma,
+  Copy,
+  Check,
+  Loader2,
+  WifiOff
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
@@ -26,7 +30,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { ScrollArea } from '../components/ui/scroll-area';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
+import { Badge } from '../components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
+import { useNotes, useOffline } from '../hooks/useOffline';
 import { mockNotes } from '../data/mock';
 import { cn } from '../lib/utils';
 
