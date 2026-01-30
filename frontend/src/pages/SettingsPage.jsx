@@ -373,13 +373,13 @@ const SettingsPage = () => {
             {storageUsage && (
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm">Espace utilisé</span>
+                  <span className="text-sm">{t('settings.spaceUsed')}</span>
                   <span className="text-sm text-gray-400">
                     {(storageUsage.usage / 1024 / 1024).toFixed(2)} MB / {(storageUsage.quota / 1024 / 1024).toFixed(0)} MB
                   </span>
                 </div>
                 <Progress value={parseFloat(storageUsage.percentUsed)} className="h-2 bg-[#21262d]" />
-                <p className="text-xs text-gray-500 mt-1">{storageUsage.percentUsed}% utilisé</p>
+                <p className="text-xs text-gray-500 mt-1">{storageUsage.percentUsed}% {t('settings.used')}</p>
               </div>
             )}
 
@@ -387,7 +387,7 @@ const SettingsPage = () => {
 
             {/* Export/Import */}
             <div className="space-y-3">
-              <p className="text-sm text-gray-400">Sauvegarde et restauration</p>
+              <p className="text-sm text-gray-400">{t('settings.backupRestore')}</p>
               <div className="flex gap-3">
                 <Button
                   variant="outline"
@@ -396,7 +396,7 @@ const SettingsPage = () => {
                   disabled={isExporting}
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  Exporter données
+                  {t('settings.exportData')}
                 </Button>
                 <label className="flex-1">
                   <Button
@@ -406,7 +406,7 @@ const SettingsPage = () => {
                   >
                     <span>
                       <Upload className="w-4 h-4 mr-2" />
-                      Importer données
+                      {t('settings.importData')}
                     </span>
                   </Button>
                   <input
@@ -423,10 +423,9 @@ const SettingsPage = () => {
               <div className="flex items-start gap-3">
                 <HardDrive className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium">Mode hors ligne activé</p>
+                  <p className="text-sm font-medium">{t('settings.offlineEnabled')}</p>
                   <p className="text-xs text-gray-500 mt-1">
-                    Vos snips, notes et documents sont automatiquement sauvegardés localement. 
-                    Vous pouvez travailler sans connexion internet.
+                    {t('settings.offlineEnabledDesc')}
                   </p>
                 </div>
               </div>
@@ -442,18 +441,18 @@ const SettingsPage = () => {
                 <HelpCircle className="w-5 h-5 text-orange-400" />
               </div>
               <div>
-                <CardTitle className="text-lg">Aide & Support</CardTitle>
-                <CardDescription>Ressources et documentation</CardDescription>
+                <CardTitle className="text-lg">{t('settings.helpSupport')}</CardTitle>
+                <CardDescription>{t('settings.helpSupportDesc')}</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-3">
               {[
-                { label: 'Documentation', icon: ExternalLink },
-                { label: 'Tutoriels vidéo', icon: ExternalLink },
-                { label: 'Communauté', icon: ExternalLink },
-                { label: 'Contacter le support', icon: ExternalLink },
+                { label: t('settings.documentation'), icon: ExternalLink },
+                { label: t('settings.videoTutorials'), icon: ExternalLink },
+                { label: t('settings.community'), icon: ExternalLink },
+                { label: t('settings.contactSupport'), icon: ExternalLink },
               ].map((item, idx) => {
                 const Icon = item.icon;
                 return (
