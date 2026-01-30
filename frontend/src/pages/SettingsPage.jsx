@@ -199,21 +199,21 @@ const SettingsPage = () => {
               </div>
               <div>
                 <CardTitle className="text-lg">{t('settings.appearance')}</CardTitle>
-                <CardDescription>Personnalisez l'interface</CardDescription>
+                <CardDescription>{t('settings.appearanceDesc')}</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <Label className="text-sm font-medium">Thème</Label>
-                <p className="text-xs text-gray-500">Sélectionnez le thème de l'application</p>
+                <Label className="text-sm font-medium">{t('settings.theme')}</Label>
+                <p className="text-xs text-gray-500">{t('settings.themeDesc')}</p>
               </div>
               <div className="flex gap-2">
                 {[
-                  { value: 'light', icon: Sun, label: 'Clair' },
-                  { value: 'dark', icon: Moon, label: 'Sombre' },
-                  { value: 'system', icon: Monitor, label: 'Système' },
+                  { value: 'light', icon: Sun, label: t('settings.light') },
+                  { value: 'dark', icon: Moon, label: t('settings.dark') },
+                  { value: 'system', icon: Monitor, label: t('settings.system') },
                 ].map((theme) => {
                   const Icon = theme.icon;
                   return (
@@ -239,8 +239,8 @@ const SettingsPage = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <Label className="text-sm font-medium">Mode compact</Label>
-                <p className="text-xs text-gray-500">Réduit l'espacement pour plus de contenu</p>
+                <Label className="text-sm font-medium">{t('settings.compactMode')}</Label>
+                <p className="text-xs text-gray-500">{t('settings.compactModeDesc')}</p>
               </div>
               <Switch
                 checked={settings.compactMode}
@@ -250,8 +250,8 @@ const SettingsPage = () => {
 
             <div className="flex items-center justify-between">
               <div>
-                <Label className="text-sm font-medium">Contraste élevé</Label>
-                <p className="text-xs text-gray-500">Améliore la lisibilité</p>
+                <Label className="text-sm font-medium">{t('settings.highContrast')}</Label>
+                <p className="text-xs text-gray-500">{t('settings.highContrastDesc')}</p>
               </div>
               <Switch
                 checked={settings.highContrast}
@@ -269,15 +269,15 @@ const SettingsPage = () => {
                 <SettingsIcon className="w-5 h-5 text-blue-400" />
               </div>
               <div>
-                <CardTitle className="text-lg">Préférences</CardTitle>
-                <CardDescription>Options générales de l'application</CardDescription>
+                <CardTitle className="text-lg">{t('settings.preferences')}</CardTitle>
+                <CardDescription>{t('settings.preferencesDesc')}</CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <Label className="text-sm font-medium">Langue</Label>
+                <Label className="text-sm font-medium">{t('settings.defaultFormat')}</Label>
                 <p className="text-xs text-gray-500">Langue de l'interface</p>
               </div>
               <Select value={settings.language} onValueChange={(v) => updateSetting('language', v)}>
