@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Settings as SettingsIcon, 
   User, 
@@ -12,7 +12,11 @@ import {
   ExternalLink,
   Moon,
   Sun,
-  Monitor
+  Monitor,
+  Database,
+  Upload,
+  Trash2,
+  HardDrive
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
@@ -22,6 +26,8 @@ import { Switch } from '../components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Separator } from '../components/ui/separator';
 import { Badge } from '../components/ui/badge';
+import { Progress } from '../components/ui/progress';
+import * as storage from '../utils/offlineStorage';
 
 const SettingsPage = () => {
   const [settings, setSettings] = useState({
