@@ -44,12 +44,12 @@ async def recognize_equation(image_base64: str) -> dict:
     # Create unique session for this recognition
     session_id = f"ocr-{uuid.uuid4()}"
     
-    # Initialize chat with Gemini Vision
+    # Initialize chat with GPT-4 Vision (more accurate for OCR)
     chat = LlmChat(
         api_key=EMERGENT_LLM_KEY,
         session_id=session_id,
         system_message=SYSTEM_PROMPT
-    ).with_model("gemini", "gemini-2.0-flash")
+    ).with_model("openai", "gpt-4o")
     
     # Create image content
     image_content = ImageContent(image_base64=image_base64)
