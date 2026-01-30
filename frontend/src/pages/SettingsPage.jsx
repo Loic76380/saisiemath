@@ -332,6 +332,85 @@ const SettingsPage = () => {
           </CardContent>
         </Card>
 
+        {/* Offline Storage Section */}
+        <Card className="bg-[#161b22] border-[#30363d]">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center">
+                <Database className="w-5 h-5 text-cyan-400" />
+              </div>
+              <div>
+                <CardTitle className="text-lg">Stockage Local</CardTitle>
+                <CardDescription>Gérez vos données hors ligne</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Storage Usage */}
+            {storageUsage && (
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm">Espace utilisé</span>
+                  <span className="text-sm text-gray-400">
+                    {(storageUsage.usage / 1024 / 1024).toFixed(2)} MB / {(storageUsage.quota / 1024 / 1024).toFixed(0)} MB
+                  </span>
+                </div>
+                <Progress value={parseFloat(storageUsage.percentUsed)} className="h-2 bg-[#21262d]" />
+                <p className="text-xs text-gray-500 mt-1">{storageUsage.percentUsed}% utilisé</p>
+              </div>
+            )}
+
+            <Separator className="bg-[#30363d]" />
+
+            {/* Export/Import */}
+            <div className="space-y-3">
+              <p className="text-sm text-gray-400">Sauvegarde et restauration</p>
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="flex-1 border-[#30363d] bg-[#21262d] hover:bg-[#30363d]"
+                  onClick={handleExportData}
+                  disabled={isExporting}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Exporter données
+                </Button>
+                <label className="flex-1">
+                  <Button
+                    variant="outline"
+                    className="w-full border-[#30363d] bg-[#21262d] hover:bg-[#30363d]"
+                    asChild
+                  >
+                    <span>
+                      <Upload className="w-4 h-4 mr-2" />
+                      Importer données
+                    </span>
+                  </Button>
+                  <input
+                    type="file"
+                    accept=".json"
+                    onChange={handleImportData}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-lg bg-[#21262d] border border-[#30363d]">
+              <div className="flex items-start gap-3">
+                <HardDrive className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium">Mode hors ligne activé</p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Vos snips, notes et documents sont automatiquement sauvegardés localement. 
+                    Vous pouvez travailler sans connexion internet.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Help & Support */}
         <Card className="bg-[#161b22] border-[#30363d]">
           <CardHeader>
