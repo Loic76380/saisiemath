@@ -13,7 +13,6 @@ import {
   FileImage,
   Wifi,
   WifiOff,
-  Cloud,
   CloudOff
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
@@ -24,15 +23,18 @@ import { ScrollArea } from '../components/ui/scroll-area';
 import HandwritingCanvas from '../components/HandwritingCanvas';
 import CopyFormats from '../components/CopyFormats';
 import { useSnips, useOffline } from '../hooks/useOffline';
+import { useLanguage } from '../i18n/LanguageContext';
 import { mockSnips, simulateOCR } from '../data/mock';
 import { cn } from '../lib/utils';
 
 const SnipPage = () => {
+  const { t, language } = useLanguage();
   const { snips, addSnip, removeSnip, isLoading } = useSnips(mockSnips);
   const { isOnline } = useOffline();
   const [selectedSnip, setSelectedSnip] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [ocrResult, setOcrResult] = useState(null);
+  const [handwritingResult, setHandwritingResult] = useState(null);
   const [copiedFormat, setCopiedFormat] = useState(null);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [activeTab, setActiveTab] = useState('upload');
@@ -58,6 +60,11 @@ const SnipPage = () => {
       const result = await simulateOCR(2000);
       setOcrResult(result);
       
+      // For handwriting, also set the handwriting result
+      if (source === 'handwriting') {
+        setHandwritingResult(result);
+      }
+      
       // Add to snips collection
       const newSnip = {
         id: Date.now().toString(),
@@ -81,6 +88,10 @@ const SnipPage = () => {
     await processImage(imageData, 'handwriting');
   }, [snips.length]);
 
+  const handleClearHandwritingResult = () => {
+    setHandwritingResult(null);
+  };
+
   const handleCopy = async (text, format) => {
     await navigator.clipboard.writeText(text);
     setCopiedFormat(format);
@@ -96,7 +107,7 @@ const SnipPage = () => {
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString('fr-FR', {
+    return date.toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', {
       day: 'numeric',
       month: 'short',
       hour: '2-digit',
