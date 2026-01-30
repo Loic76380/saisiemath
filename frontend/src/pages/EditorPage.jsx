@@ -52,58 +52,49 @@ const EditorPage = () => {
     }
   }, [notes, selectedNote]);
 
-  const handleContentChange = (content) => {
+  const handleContentChange = async (content) => {
     if (!selectedNote) return;
     
-    const updatedNote = {
-      ...selectedNote,
-      content,
-      updatedAt: new Date().toISOString()
-    };
-    
+    const updatedNote = await updateNote(selectedNote.id, { content });
     setSelectedNote(updatedNote);
-    setNotes(prev => prev.map(n => n.id === updatedNote.id ? updatedNote : n));
   };
 
-  const handleTitleChange = (title) => {
+  const handleTitleChange = async (title) => {
     if (!selectedNote) return;
     
-    const updatedNote = {
-      ...selectedNote,
-      title,
-      updatedAt: new Date().toISOString()
-    };
-    
+    const updatedNote = await updateNote(selectedNote.id, { title });
     setSelectedNote(updatedNote);
-    setNotes(prev => prev.map(n => n.id === updatedNote.id ? updatedNote : n));
   };
 
   const handleSave = async () => {
     setIsSaving(true);
-    // Simulate save
+    // Data is already saved via updateNote, this just shows feedback
     await new Promise(resolve => setTimeout(resolve, 500));
     setIsSaving(false);
   };
 
-  const handleCreateNote = () => {
-    const newNote = {
-      id: Date.now().toString(),
+  const handleCreateNote = async () => {
+    const newNote = await addNote({
       title: newNoteTitle || 'Nouvelle Note',
       content: '# Nouvelle Note\n\nCommencez à écrire ici...\n\n## Équations\n\n$$E = mc^2$$',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
+    });
     
-    setNotes(prev => [newNote, ...prev]);
     setSelectedNote(newNote);
     setNewNoteTitle('');
   };
 
-  const handleDeleteNote = (id) => {
-    setNotes(prev => prev.filter(n => n.id !== id));
+  const handleDeleteNote = async (id) => {
+    await removeNote(id);
     if (selectedNote?.id === id) {
-      setSelectedNote(notes[0] || null);
+      setSelectedNote(notes.find(n => n.id !== id) || null);
     }
+  };
+
+  const handleCopyContent = async () => {
+    if (!selectedNote) return;
+    await navigator.clipboard.writeText(selectedNote.content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const insertMarkdown = (syntax) => {
