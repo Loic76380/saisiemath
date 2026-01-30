@@ -39,6 +39,51 @@ const SettingsPage = () => {
     highContrast: false,
     compactMode: false
   });
+  const [storageUsage, setStorageUsage] = useState(null);
+  const [isExporting, setIsExporting] = useState(false);
+
+  useEffect(() => {
+    loadStorageUsage();
+  }, []);
+
+  const loadStorageUsage = async () => {
+    const usage = await storage.getStorageUsage();
+    setStorageUsage(usage);
+  };
+
+  const handleExportData = async () => {
+    setIsExporting(true);
+    try {
+      const data = await storage.exportAllData();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `mathsnip-backup-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Export failed:', error);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleImportData = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+      await storage.importAllData(data);
+      alert('Données importées avec succès!');
+      loadStorageUsage();
+    } catch (error) {
+      console.error('Import failed:', error);
+      alert('Erreur lors de l\'import des données');
+    }
+  };
 
   const updateSetting = (key, value) => {
     setSettings(prev => ({ ...prev, [key]: value }));
