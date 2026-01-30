@@ -54,12 +54,14 @@ Application clone de Mathpix Snip permettant de capturer et reconnaître des éq
 
 ## État Actuel
 
-### ✅ Complété
+### ✅ Complété (Testé le 30/01/2026 - 100% réussite)
 - Interface utilisateur complète
-- Canvas d'écriture manuscrite avec outils
+- Canvas d'écriture manuscrite avec outils (dessin, effacement, couleurs, tailles)
+- Panneau de résultat de reconnaissance (bug corrigé et vérifié)
 - Mode hors ligne
 - Internationalisation FR/EN
-- Panneau de résultat de reconnaissance (bug corrigé)
+- Collection de snips
+- Copie multi-formats (LaTeX, MathML, AsciiMath, Text)
 - Scripts de déploiement Docker Compose
 
 ### ⚠️ MOCKÉ
@@ -83,5 +85,8 @@ Scripts disponibles dans `/app/deploy/` :
 
 ### 30/01/2026
 - ✅ Bug fix: Panneau de résultat d'écriture manuscrite s'affiche maintenant correctement
-- Modification du layout flex dans HandwritingCanvas.jsx
-- Ajout de data-testid pour les tests
+- Modification du layout flex dans HandwritingCanvas.jsx (overflow-hidden -> min-h-0)
+- Ajout de flex-shrink-0 au panneau de résultat
+- Ajout de data-testid pour les tests automatisés
+- Tests automatisés passés à 100%
+
