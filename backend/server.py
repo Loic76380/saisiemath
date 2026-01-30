@@ -78,6 +78,23 @@ async def get_status_checks():
     
     return status_checks
 
+# OCR Endpoint
+@api_router.post("/ocr", response_model=OCRResponse)
+async def perform_ocr(request: OCRRequest):
+    """
+    Perform OCR on a base64 encoded image containing mathematical equations.
+    Returns the recognized equation in LaTeX and other formats.
+    """
+    try:
+        if not request.image:
+            raise HTTPException(status_code=400, detail="No image provided")
+        
+        result = await recognize_equation(request.image)
+        return OCRResponse(**result)
+    except Exception as e:
+        logger.error(f"OCR error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
