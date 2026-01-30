@@ -434,7 +434,7 @@ const HandwritingCanvas = ({ onRecognize, isProcessing, recognitionResult, onCle
 
         {/* Recognition Result Panel */}
         {recognitionResult && (
-          <Card className="w-80 bg-[#161b22] border-[#30363d] flex flex-col">
+          <Card className="w-80 flex-shrink-0 bg-[#161b22] border-[#30363d] flex flex-col" data-testid="recognition-result-panel">
             <div className="p-3 border-b border-[#30363d] flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#6366f1]" />
