@@ -8,6 +8,7 @@ const LatexEditor = ({ latex, onLatexChange }) => {
       onChange={(e) => onLatexChange(e.target.value)}
       placeholder="Entrez votre formule LaTeX ici...&#10;&#10;Exemples:&#10;  \frac{a}{b}  →  fraction&#10;  x^2         →  puissance&#10;  \sqrt{x}    →  racine carrée&#10;  \sum_{i=1}^{n} →  somme"
       spellCheck={false}
+      data-testid="latex-editor"
     />
   );
 };
