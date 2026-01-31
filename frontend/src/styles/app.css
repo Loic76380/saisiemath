@@ -250,15 +250,22 @@ body {
   min-height: 120px;
   padding: 16px;
   border: none;
-  font-family: 'SF Mono', 'Fira Code', monospace;
-  font-size: 14px;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 15px;
   line-height: 1.6;
   resize: vertical;
   background: var(--bg-secondary);
+  color: var(--text-primary);
+  caret-color: var(--accent);
 }
 
 .latex-editor:focus {
-  outline: none;
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.latex-editor::placeholder {
+  color: var(--text-muted);
 }
 
 /* Visual Editor */
