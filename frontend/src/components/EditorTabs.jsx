@@ -17,18 +17,21 @@ const EditorTabs = ({
         <button 
           className={`tab-btn ${activeTab === 'handwriting' ? 'active' : ''}`}
           onClick={() => onTabChange('handwriting')}
+          data-testid="tab-manuscrit"
         >
           Manuscrit
         </button>
         <button 
           className={`tab-btn ${activeTab === 'visual' ? 'active' : ''}`}
           onClick={() => onTabChange('visual')}
+          data-testid="tab-visuel"
         >
           Visuel
         </button>
         <button 
           className={`tab-btn ${activeTab === 'latex' ? 'active' : ''}`}
           onClick={() => onTabChange('latex')}
+          data-testid="tab-latex"
         >
           LaTeX
         </button>
