@@ -1,19 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Copy, Image, Check, ChevronDown } from 'lucide-react';
-import { useHistory } from '../context/HistoryContext';
 import html2canvas from 'html2canvas';
 import katex from 'katex';
 
-const ActionBar = ({ latex, canvasDataUrl }) => {
+const ActionBar = ({ latex }) => {
   const [showTextMenu, setShowTextMenu] = useState(false);
   const [showImageMenu, setShowImageMenu] = useState(false);
   const [copied, setCopied] = useState(null);
   const [toast, setToast] = useState(null);
   const textMenuRef = useRef(null);
   const imageMenuRef = useRef(null);
-  const { addToHistory } = useHistory();
 
-  // Close menus on click outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (textMenuRef.current && !textMenuRef.current.contains(e.target)) {
@@ -52,7 +49,6 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
         formatLabel = 'MathML';
         break;
       case 'word':
-        // Word-friendly: wrap in equation delimiters
         textToCopy = `\\(${latex}\\)`;
         formatLabel = 'Word';
         break;
@@ -65,9 +61,6 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
       setCopied('text');
       setTimeout(() => setCopied(null), 2000);
       showToast(`${formatLabel} copié !`);
-      
-      // Add to history
-      addToHistory({ latex, timestamp: Date.now() });
     } catch (error) {
       console.error('Erreur copie:', error);
       showToast('Erreur lors de la copie');
@@ -79,7 +72,6 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
   const copyImage = async (format = 'png', transparent = false) => {
     if (!latex) return;
 
-    // Create temporary element for rendering
     const tempDiv = document.createElement('div');
     tempDiv.style.cssText = `
       position: absolute;
@@ -102,7 +94,6 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
       });
 
       if (format === 'png') {
-        // Try to copy to clipboard
         try {
           const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
           await navigator.clipboard.write([
@@ -111,9 +102,7 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
           setCopied('image');
           setTimeout(() => setCopied(null), 2000);
           showToast('Image copiée !');
-          addToHistory({ latex, timestamp: Date.now() });
         } catch {
-          // Fallback: download
           const link = document.createElement('a');
           link.download = 'formule.png';
           link.href = canvas.toDataURL('image/png');
@@ -121,7 +110,6 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
           showToast('Image téléchargée');
         }
       } else if (format === 'svg') {
-        // SVG download
         const svgString = `
           <svg xmlns="http://www.w3.org/2000/svg" width="${canvas.width}" height="${canvas.height}">
             <foreignObject width="100%" height="100%">
@@ -150,13 +138,11 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
   return (
     <>
       <div className="action-bar">
-        {/* Copy Text Button */}
         <div className="dropdown" ref={textMenuRef}>
           <button 
             className={`action-btn ${copied === 'text' ? 'success' : ''}`}
             onClick={() => setShowTextMenu(!showTextMenu)}
             disabled={!latex}
-            data-testid="copy-text-btn"
           >
             {copied === 'text' ? <Check size={16} /> : <Copy size={16} />}
             Copier texte
@@ -164,27 +150,25 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
           </button>
           
           {showTextMenu && (
-            <div className="dropdown-menu" data-testid="copy-text-menu">
-              <button className="dropdown-item" onClick={() => copyText('latex')} data-testid="copy-latex">
+            <div className="dropdown-menu">
+              <button className="dropdown-item" onClick={() => copyText('latex')}>
                 LaTeX
               </button>
-              <button className="dropdown-item" onClick={() => copyText('mathml')} data-testid="copy-mathml">
+              <button className="dropdown-item" onClick={() => copyText('mathml')}>
                 MathML
               </button>
-              <button className="dropdown-item" onClick={() => copyText('word')} data-testid="copy-word">
+              <button className="dropdown-item" onClick={() => copyText('word')}>
                 Word / OneNote
               </button>
             </div>
           )}
         </div>
 
-        {/* Copy Image Button */}
         <div className="dropdown" ref={imageMenuRef}>
           <button 
             className={`action-btn ${copied === 'image' ? 'success' : ''}`}
             onClick={() => setShowImageMenu(!showImageMenu)}
             disabled={!latex}
-            data-testid="copy-image-btn"
           >
             {copied === 'image' ? <Check size={16} /> : <Image size={16} />}
             Copier image
@@ -192,14 +176,14 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
           </button>
           
           {showImageMenu && (
-            <div className="dropdown-menu" data-testid="copy-image-menu">
-              <button className="dropdown-item" onClick={() => copyImage('png', false)} data-testid="copy-png-white">
+            <div className="dropdown-menu">
+              <button className="dropdown-item" onClick={() => copyImage('png', false)}>
                 PNG (fond blanc)
               </button>
-              <button className="dropdown-item" onClick={() => copyImage('png', true)} data-testid="copy-png-transparent">
+              <button className="dropdown-item" onClick={() => copyImage('png', true)}>
                 PNG (transparent)
               </button>
-              <button className="dropdown-item" onClick={() => copyImage('svg')} data-testid="download-svg">
+              <button className="dropdown-item" onClick={() => copyImage('svg')}>
                 Télécharger SVG
               </button>
             </div>
@@ -207,8 +191,7 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
         </div>
       </div>
 
-      {/* Toast notification */}
-      {toast && <div className="toast" data-testid="toast-notification">{toast}</div>}
+      {toast && <div className="toast">{toast}</div>}
     </>
   );
 };
