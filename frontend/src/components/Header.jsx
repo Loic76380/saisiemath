@@ -13,6 +13,7 @@ const Header = ({ onHistoryClick, onSettingsClick, isHistoryView }) => {
         <button 
           className={`header-btn ${isHistoryView ? 'active' : ''}`}
           onClick={onHistoryClick}
+          data-testid="history-btn"
         >
           {isHistoryView ? (
             <>
@@ -27,7 +28,7 @@ const Header = ({ onHistoryClick, onSettingsClick, isHistoryView }) => {
           )}
         </button>
         
-        <button className="header-btn" onClick={onSettingsClick}>
+        <button className="header-btn" onClick={onSettingsClick} data-testid="settings-btn">
           <Settings size={16} />
         </button>
       </div>
