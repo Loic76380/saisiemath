@@ -1,92 +1,86 @@
-# MathSnip - Clone de Mathpix Snip
+# FormulaPad - PWA de Reconnaissance de Formules Mathématiques
 
-## Description du Projet
-Application clone de Mathpix Snip permettant de capturer et reconnaître des équations mathématiques manuscrites ou à partir d'images, avec conversion en LaTeX et autres formats.
+## Description
+Application web progressive (PWA) minimaliste pour saisir, reconnaître et copier des formules mathématiques.
 
-## Fonctionnalités Implémentées
+## Fonctionnalités Implémentées ✅
 
-### Core Features
-- **Capture d'images** : Upload d'images contenant des équations mathématiques
-- **Écriture manuscrite** : Canvas interactif avec stylo, gomme, couleurs et undo/redo
-- **Reconnaissance OCR** : Conversion en LaTeX (actuellement MOCKÉE)
-- **Formats multiples** : Export en LaTeX, MathML, AsciiMath, texte
-- **Collection de Snips** : Historique des équations capturées
+### Modes de Saisie
+1. **Manuscrit** : Canvas de dessin avec stylet/tactile/souris
+   - Outils : Stylo, Gomme, Annuler/Refaire, Effacer
+   - Bouton "Reconnaître" pour OCR
 
-### UI/UX
-- Interface sombre style Mathpix
-- Onglets Image / Écriture manuscrite
-- Panneau de résultat à côté du canvas ✅ (Bug corrigé le 30/01/2026)
-- Support tactile pour le canvas
+2. **Visuel** : Palettes de symboles cliquables
+   - Structures : Fraction, Puissance, Indice, Racine, Intégrale, Somme, Produit, Limite, Infini
+   - Lettres grecques : α, β, γ, δ, θ, λ, μ, π, σ, φ, ω
+   - Opérateurs : ±, ×, ÷, ≠, ≤, ≥, ≈, →, ∈
 
-### Fonctionnalités Avancées
-- **Mode hors ligne** : Service Worker + LocalStorage
-- **Internationalisation** : Français / Anglais
-- **Copie multi-formats** : Formats adaptés pour Word, OneNote, etc.
-- **Export d'image** : Copier ou télécharger l'équation en PNG
+3. **LaTeX** : Édition directe du code LaTeX
 
-## Architecture Technique
+### Reconnaissance OCR
+- **Moteur** : GPT-4 Vision via Emergent LLM Key
+- **Latence** : < 3 secondes
+- **Confiance** : Affichée en badge (vert > 90%, jaune > 70%, rouge < 70%)
+
+### Export
+- **Copier texte** : LaTeX, MathML, Word/OneNote
+- **Copier image** : PNG (fond blanc/transparent), SVG
+
+### Stockage
+- **Historique** : 30 dernières formules (IndexedDB)
+- **Offline** : Saisie Visuel/LaTeX + Historique fonctionnent sans réseau
+
+## Architecture
 
 ```
 /app
-├── backend/           # FastAPI (non utilisé actuellement)
-├── deploy/            # Scripts Docker Compose pour VPS
+├── backend/
+│   ├── server.py           # API FastAPI
+│   └── ocr_service.py      # Service OCR GPT-4 Vision
 └── frontend/
-    ├── src/
-    │   ├── components/
-    │   │   ├── HandwritingCanvas.jsx  # Canvas d'écriture
-    │   │   ├── CopyFormats.jsx        # Options de copie
-    │   │   └── Layout.jsx
-    │   ├── pages/
-    │   │   ├── SnipPage.jsx           # Page principale
-    │   │   ├── DocumentsPage.jsx
-    │   │   ├── EditorPage.jsx
-    │   │   └── SettingsPage.jsx
-    │   ├── data/mock.js               # Données OCR mockées
-    │   ├── hooks/useOffline.js        # Gestion hors ligne
-    │   └── i18n/                      # Traductions FR/EN
-    └── public/
+    └── src/
+        ├── App.js
+        ├── components/
+        │   ├── Header.jsx
+        │   ├── EditorTabs.jsx
+        │   ├── HandwritingCanvas.jsx
+        │   ├── VisualEditor.jsx
+        │   ├── LatexEditor.jsx
+        │   ├── Preview.jsx
+        │   ├── ActionBar.jsx
+        │   ├── History.jsx
+        │   └── Settings.jsx
+        ├── context/
+        │   └── HistoryContext.jsx
+        └── styles/
+            └── app.css
 ```
 
 ## Stack Technique
-- **Frontend** : React, TailwindCSS, shadcn/ui
-- **Backend** : FastAPI (template, non intégré)
-- **Déploiement** : Docker Compose, Nginx
+- **Frontend** : React, KaTeX, html2canvas, IndexedDB
+- **Backend** : FastAPI, emergentintegrations (GPT-4 Vision)
+- **Style** : CSS vanilla minimaliste (fond clair)
 
-## État Actuel
-
-### ✅ Complété (Testé le 30/01/2026 - 100% réussite)
-- Interface utilisateur complète
-- Canvas d'écriture manuscrite avec outils (dessin, effacement, couleurs, tailles)
-- Panneau de résultat de reconnaissance (bug corrigé et vérifié)
-- Mode hors ligne
-- Internationalisation FR/EN
-- Collection de snips
-- Copie multi-formats (LaTeX, MathML, AsciiMath, Text)
-- Scripts de déploiement Docker Compose
-
-### ⚠️ MOCKÉ
-- **Toute la reconnaissance OCR est simulée** (`mock.js`)
-- Les résultats sont des équations prédéfinies aléatoires
-
-### 🔜 À Faire (Backlog)
-1. **P1** : Intégrer un vrai service OCR (Gemini, GPT Vision, ou autre)
-2. **P2** : Backend API pour la reconnaissance
-3. **P2** : Stockage des snips en base de données
-4. **P3** : Amélioration de la précision de reconnaissance
-
-## Déploiement
-Scripts disponibles dans `/app/deploy/` :
-- `docker-compose.yml`
-- `deploy-saisiemath.sh`
-- `nginx/saisiemath.conf`
-- `DEPLOY_SAISIEMATH.md` (instructions)
+## Tests
+- **Backend** : 9/9 tests passés (100%)
+- **Frontend** : 100% fonctionnel
 
 ## Changelog
 
-### 30/01/2026
-- ✅ Bug fix: Panneau de résultat d'écriture manuscrite s'affiche maintenant correctement
-- Modification du layout flex dans HandwritingCanvas.jsx (overflow-hidden -> min-h-0)
-- Ajout de flex-shrink-0 au panneau de résultat
-- Ajout de data-testid pour les tests automatisés
-- Tests automatisés passés à 100%
+### 31/01/2026 - v1.0.0
+- ✅ Création de FormulaPad (nouvelle app, remplace MathSnip)
+- ✅ Interface minimaliste française
+- ✅ 3 modes de saisie : Manuscrit, Visuel, LaTeX
+- ✅ Reconnaissance OCR réelle via GPT-4 Vision
+- ✅ Aperçu en temps réel avec KaTeX
+- ✅ Export texte (LaTeX/MathML/Word) et image (PNG/SVG)
+- ✅ Historique local avec IndexedDB (30 formules max)
+- ✅ Tests complets passés à 100%
 
+## Limitations Connues
+- La copie image peut nécessiter un téléchargement sur certains navigateurs (Clipboard API)
+- La reconnaissance OCR nécessite une connexion réseau
+- Précision OCR dépend de la lisibilité de l'écriture
+
+## Déploiement VPS
+Scripts disponibles dans `/app/deploy/`
