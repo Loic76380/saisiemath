@@ -1,7 +1,7 @@
 import React from 'react';
-import { Clock, Settings, ArrowLeft, Sparkles } from 'lucide-react';
+import { Settings, Sparkles } from 'lucide-react';
 
-const Header = ({ onHistoryClick, onSettingsClick, isHistoryView }) => {
+const Header = ({ onSettingsClick }) => {
   return (
     <header className="header">
       <div className="header-logo">
@@ -10,25 +10,7 @@ const Header = ({ onHistoryClick, onSettingsClick, isHistoryView }) => {
       </div>
       
       <div className="header-actions">
-        <button 
-          className={`header-btn ${isHistoryView ? 'active' : ''}`}
-          onClick={onHistoryClick}
-          data-testid="history-btn"
-        >
-          {isHistoryView ? (
-            <>
-              <ArrowLeft size={16} />
-              Retour
-            </>
-          ) : (
-            <>
-              <Clock size={16} />
-              Historique
-            </>
-          )}
-        </button>
-        
-        <button className="header-btn" onClick={onSettingsClick} data-testid="settings-btn">
+        <button className="header-btn" onClick={onSettingsClick}>
           <Settings size={16} />
         </button>
       </div>
