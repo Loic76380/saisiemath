@@ -9,6 +9,18 @@ const HandwritingCanvas = ({ onRecognize, isRecognizing }) => {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [hasContent, setHasContent] = useState(false);
 
+  const saveState = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const dataUrl = canvas.toDataURL();
+    setHistory(prev => {
+      const newHistory = prev.slice(0, historyIndex + 1);
+      return [...newHistory, dataUrl];
+    });
+    setHistoryIndex(prev => prev + 1);
+  }, [historyIndex]);
+
   // Initialize canvas
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -28,19 +40,7 @@ const HandwritingCanvas = ({ onRecognize, isRecognizing }) => {
     
     // Save initial state
     saveState();
-  }, []);
-
-  const saveState = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const dataUrl = canvas.toDataURL();
-    setHistory(prev => {
-      const newHistory = prev.slice(0, historyIndex + 1);
-      return [...newHistory, dataUrl];
-    });
-    setHistoryIndex(prev => prev + 1);
-  }, [historyIndex]);
+  }, [saveState]);
 
   const getCoords = (e) => {
     const canvas = canvasRef.current;
