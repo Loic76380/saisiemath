@@ -105,7 +105,7 @@ const History = ({ onSelect }) => {
       
       {history.length === 0 ? (
         <div className="history-empty">
-          <p>Aucune formule dans l'historique</p>
+          <p>Aucune formule dans l&apos;historique</p>
           <p style={{ fontSize: '13px', marginTop: '8px' }}>
             Les formules copiées apparaîtront ici
           </p>
