@@ -156,6 +156,7 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
             className={`action-btn ${copied === 'text' ? 'success' : ''}`}
             onClick={() => setShowTextMenu(!showTextMenu)}
             disabled={!latex}
+            data-testid="copy-text-btn"
           >
             {copied === 'text' ? <Check size={16} /> : <Copy size={16} />}
             Copier texte
@@ -163,14 +164,14 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
           </button>
           
           {showTextMenu && (
-            <div className="dropdown-menu">
-              <button className="dropdown-item" onClick={() => copyText('latex')}>
+            <div className="dropdown-menu" data-testid="copy-text-menu">
+              <button className="dropdown-item" onClick={() => copyText('latex')} data-testid="copy-latex">
                 LaTeX
               </button>
-              <button className="dropdown-item" onClick={() => copyText('mathml')}>
+              <button className="dropdown-item" onClick={() => copyText('mathml')} data-testid="copy-mathml">
                 MathML
               </button>
-              <button className="dropdown-item" onClick={() => copyText('word')}>
+              <button className="dropdown-item" onClick={() => copyText('word')} data-testid="copy-word">
                 Word / OneNote
               </button>
             </div>
@@ -183,6 +184,7 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
             className={`action-btn ${copied === 'image' ? 'success' : ''}`}
             onClick={() => setShowImageMenu(!showImageMenu)}
             disabled={!latex}
+            data-testid="copy-image-btn"
           >
             {copied === 'image' ? <Check size={16} /> : <Image size={16} />}
             Copier image
@@ -190,14 +192,14 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
           </button>
           
           {showImageMenu && (
-            <div className="dropdown-menu">
-              <button className="dropdown-item" onClick={() => copyImage('png', false)}>
+            <div className="dropdown-menu" data-testid="copy-image-menu">
+              <button className="dropdown-item" onClick={() => copyImage('png', false)} data-testid="copy-png-white">
                 PNG (fond blanc)
               </button>
-              <button className="dropdown-item" onClick={() => copyImage('png', true)}>
+              <button className="dropdown-item" onClick={() => copyImage('png', true)} data-testid="copy-png-transparent">
                 PNG (transparent)
               </button>
-              <button className="dropdown-item" onClick={() => copyImage('svg')}>
+              <button className="dropdown-item" onClick={() => copyImage('svg')} data-testid="download-svg">
                 Télécharger SVG
               </button>
             </div>
@@ -206,7 +208,7 @@ const ActionBar = ({ latex, canvasDataUrl }) => {
       </div>
 
       {/* Toast notification */}
-      {toast && <div className="toast">{toast}</div>}
+      {toast && <div className="toast" data-testid="toast-notification">{toast}</div>}
     </>
   );
 };
