@@ -149,6 +149,7 @@ const HandwritingCanvas = ({ onRecognize, isRecognizing }) => {
       <canvas
         ref={canvasRef}
         className="drawing-canvas"
+        data-testid="handwriting-canvas"
         onMouseDown={startDrawing}
         onMouseMove={draw}
         onMouseUp={stopDrawing}
@@ -163,6 +164,7 @@ const HandwritingCanvas = ({ onRecognize, isRecognizing }) => {
           className={`canvas-tool ${tool === 'pen' ? 'active' : ''}`}
           onClick={() => setTool('pen')}
           title="Stylo"
+          data-testid="pen-tool"
         >
           ✏️
         </button>
@@ -170,6 +172,7 @@ const HandwritingCanvas = ({ onRecognize, isRecognizing }) => {
           className={`canvas-tool ${tool === 'eraser' ? 'active' : ''}`}
           onClick={() => setTool('eraser')}
           title="Gomme"
+          data-testid="eraser-tool"
         >
           <Eraser size={16} />
         </button>
@@ -178,6 +181,7 @@ const HandwritingCanvas = ({ onRecognize, isRecognizing }) => {
           onClick={undo}
           disabled={historyIndex <= 0}
           title="Annuler"
+          data-testid="undo-btn"
         >
           <Undo2 size={16} />
         </button>
@@ -186,6 +190,7 @@ const HandwritingCanvas = ({ onRecognize, isRecognizing }) => {
           onClick={redo}
           disabled={historyIndex >= history.length - 1}
           title="Refaire"
+          data-testid="redo-btn"
         >
           <Redo2 size={16} />
         </button>
@@ -193,6 +198,7 @@ const HandwritingCanvas = ({ onRecognize, isRecognizing }) => {
           className="canvas-tool"
           onClick={clear}
           title="Effacer tout"
+          data-testid="clear-btn"
         >
           <Trash2 size={16} />
         </button>
@@ -202,6 +208,7 @@ const HandwritingCanvas = ({ onRecognize, isRecognizing }) => {
         className="recognize-btn"
         onClick={handleRecognize}
         disabled={!hasContent || isRecognizing}
+        data-testid="recognize-btn"
       >
         {isRecognizing ? (
           <>
